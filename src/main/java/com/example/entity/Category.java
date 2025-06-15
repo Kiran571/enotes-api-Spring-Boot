@@ -2,25 +2,30 @@ package com.example.entity;
 
 import java.util.Date;
 
-public class Category {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Category extends BaseModel{
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Integer id;
 	
 	private String name;
 	
 	private String desc;
-	
-	private Boolean isActive;
-	
-	private Boolean isDeleted;
-	
-	private Integer createdBy;
-	
-	private Date createdDate;
-	
-	private Integer updatedBy;
-	
-	private Date updatedDate;
 	
 	
 	
