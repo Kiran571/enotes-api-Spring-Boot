@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.demo.entity;
 
 import java.util.Date;
 
@@ -21,13 +21,12 @@ public class Category extends BaseModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	private Integer id;
+	public Integer id;
 	
-	private String name;
+	public String name;
 	
-	private String desc;
-	
-	
+	public String description;
 	
 	
+
 }

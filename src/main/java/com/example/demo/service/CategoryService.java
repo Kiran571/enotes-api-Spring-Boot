@@ -1,8 +1,9 @@
-package com.example.service;
+package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.entity.Category;
+import com.example.demo.entity.Category;
+
 
 public interface CategoryService {
 
