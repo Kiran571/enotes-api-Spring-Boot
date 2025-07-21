@@ -8,6 +8,7 @@ import com.example.demo.entity.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,16 @@ public class CategoryServiceImpl implements CategoryService {
 		return activeList;
 	}
 	
+	@Override
+	public CategoryDto getCategoryById(Integer id) {
+		Optional<Category> findByCategory = categoryRepository.findById(id);
+		if(findByCategory.isPresent()) {
+			Category category=findByCategory.get();
+			return mapper.map(category, CategoryDto.class);
+		}
+		return null;
+		
+	}
 	
 
 }

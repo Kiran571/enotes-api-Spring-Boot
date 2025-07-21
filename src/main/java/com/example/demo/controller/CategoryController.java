@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,12 +59,22 @@ public class CategoryController {
 	public ResponseEntity<?> getActiveCategory(){
 		
 		List<CategoryResponse> activeCategoriesList = categoryService.getActiveCategory();
-		if(!activeCategoriesList.isEmpty()) { //CollectionUtils.isEmpty()
+		if(!activeCategoriesList.isEmpty()) { //CollectionUtils.isEmpty(activeCategoriesList)
 			return new ResponseEntity<>(activeCategoriesList, HttpStatus.OK);
 		}
 		
 		else return ResponseEntity.noContent().build();
 		
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getCategoryById(@PathVariable Integer id){
+		
+		CategoryDto categoryDto = categoryService.getCategoryById(id);
+		if(ObjectUtils.isEmpty(categoryDto)) {
+			return new ResponseEntity<>("Category not found with Id="+ id, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(categoryDto, HttpStatus.OK);
 	}
 	
 	
