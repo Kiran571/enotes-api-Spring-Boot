@@ -21,11 +21,11 @@ public class Category extends BaseModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	public Integer id;
+	private Integer id;
 	
-	public String name;
+	private String name;
 	
-	public String description;
+	private String description;
 	
 	
 

@@ -7,15 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.CategoryDto;
+import com.example.demo.dto.CategoryResponse;
 import com.example.demo.entity.BaseModel;
 import com.example.demo.entity.Category;
+import com.example.demo.repository.CategoryRepository;
 import com.example.demo.service.CategoryService;
 
 @RestController
@@ -27,10 +31,10 @@ public class CategoryController {
 	
 	
 	@PostMapping("/save-category")
-	public ResponseEntity<?> saveCategory(@RequestBody Category category){
-	
-		category.setCreatedOn(new Date());
-		Boolean saveCategory = categoryService.saveCategory(category);
+	public ResponseEntity<?> saveCategory(@RequestBody CategoryDto categoryDto){
+		
+		
+		Boolean saveCategory = categoryService.saveCategory(categoryDto);
 		if(saveCategory) {
 
 			
@@ -42,7 +46,7 @@ public class CategoryController {
 	@GetMapping("/category")
 	public ResponseEntity<?> getAllCategory(){
 		
-		List<Category> allCategoriesList = categoryService.getAllCategory();
+		List<CategoryDto> allCategoriesList = categoryService.getAllCategory();
 		if(!allCategoriesList.isEmpty()) { //CollectionUtils.isEmpty()
 			return new ResponseEntity<>(allCategoriesList, HttpStatus.OK);
 		}
@@ -51,4 +55,27 @@ public class CategoryController {
 		
 	}
 
+	@GetMapping("/active-category")
+	public ResponseEntity<?> getActiveCategory(){
+		
+		List<CategoryResponse> activeCategoriesList = categoryService.getActiveCategory();
+		if(!activeCategoriesList.isEmpty()) { //CollectionUtils.isEmpty(activeCategoriesList)
+			return new ResponseEntity<>(activeCategoriesList, HttpStatus.OK);
+		}
+		
+		else return ResponseEntity.noContent().build();
+		
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getCategoryById(@PathVariable Integer id){
+		
+		CategoryDto categoryDto = categoryService.getCategoryById(id);
+		if(ObjectUtils.isEmpty(categoryDto)) {
+			return new ResponseEntity<>("Category not found with Id="+ id, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+	}
+	
+	
 }
